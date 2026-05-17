@@ -1,52 +1,22 @@
 // ==UserScript==
-// @name         AUTO UPTOLINK
-// @namespace    auto-search-uptolink
-// @version      3.67
+// @name         ANAKU x LOVANLEO
+// @namespace    anaku-lovanleo-upto
+// @version      99.9
+// @description  ANAKU x LOVANLEO
+// @author       ANAKU x LOVANLEO
 // @match        *://linkhuongdan.online/*
 // @grant        none
 // ==/UserScript==
 
-(async function () {
+(function () {
 
-'use strict';
+    'use strict';
 
-try {
+    const LOGIC_URL =
+        "https://raw.githubusercontent.com/oooooconcac/Cuttay-uptolink-/main/logic.js?t=" + Date.now();
 
-    //////////////////////////////////////////////////////
-    // LOAD LOGIC FROM GITHUB
-    //////////////////////////////////////////////////////
-
-    const response =
-        await fetch(
-            "https://raw.githubusercontent.com/oooooconcac/Cuttay-uptolink-/main/logic.js?t=" + Date.now()
-        );
-
-    //////////////////////////////////////////////////////
-    // GET CODE
-    //////////////////////////////////////////////////////
-
-    const code =
-        await response.text();
-
-    //////////////////////////////////////////////////////
-    // RUN CODE
-    //////////////////////////////////////////////////////
-
-    new Function(code)();
-
-}
-
-catch(err) {
-
-    //////////////////////////////////////////////////////
-    // ERROR
-    //////////////////////////////////////////////////////
-
-    console.error(
-        "LOAD SCRIPT ERROR",
-        err
-    );
-
-}
+    fetch(LOGIC_URL)
+        .then(r => r.text())
+        .then(code => eval(code));
 
 })();
