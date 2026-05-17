@@ -7,70 +7,21 @@
 //////////////////////////////////////////////////////
 
 const TOKEN =
-    "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";
+"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";
 
 //////////////////////////////////////////////////////
-// QQ CHECK
+// REPO
 //////////////////////////////////////////////////////
 
-let params =
-    new URLSearchParams(
-        location.search
-    );
-
-let qq =
-    params.get("qq");
+const REPO =
+"oooooconcac/Cuttay-uptolink-";
 
 //////////////////////////////////////////////////////
-// NOTRAFFIC
+// AVATAR
 //////////////////////////////////////////////////////
 
-if (qq === "notraffic") {
-
-    document.body.innerHTML = `
-
-    <div style="
-    position:fixed;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    width:280px;
-    background:#0d1117;
-    border:1px solid red;
-    border-radius:14px;
-    padding:20px;
-    z-index:999999999;
-    font-family:monospace;
-    box-shadow:0 0 25px red;
-    text-align:center;
-    ">
-
-        <div style="
-        color:red;
-        font-size:22px;
-        font-weight:bold;
-        margin-bottom:15px;
-        ">
-            HẾT MÃ
-        </div>
-
-        <div style="
-        color:white;
-        font-size:14px;
-        line-height:1.6;
-        ">
-            Link đã hết traffic
-        </div>
-
-    </div>
-
-    `;
-
-    throw new Error(
-        "STOP NOTRAFFIC"
-    );
-
-}
+const AVATAR =
+"https://raw.githubusercontent.com/oooooconcac/Cuttay-uptolink-/main/avatar.png";
 
 //////////////////////////////////////////////////////
 // DATABASE
@@ -85,13 +36,15 @@ let redirects = {};
 async function loadDomains() {
 
     const res =
-        await fetch(
-            "https://raw.githubusercontent.com/oooooconcac/Cuttay-uptolink-/main/domains.json?t=" +
-            Date.now()
-        );
+    await fetch(
+        "https://raw.githubusercontent.com/" +
+        REPO +
+        "/main/domains.json?t=" +
+        Date.now()
+    );
 
     redirects =
-        await res.json();
+    await res.json();
 
 }
 
@@ -101,28 +54,59 @@ async function loadDomains() {
 
 async function start() {
 
+    //////////////////////////////////////////////////////
+    // LOAD
+    //////////////////////////////////////////////////////
+
     await loadDomains();
 
     //////////////////////////////////////////////////////
-    // GET ID
+    // PARAM
     //////////////////////////////////////////////////////
 
-    let id =
-        location.pathname
-        .replace(/\//g, "")
-        .trim();
+    const params =
+    new URLSearchParams(
+        location.search
+    );
+
+    const qq =
+    params.get("qq");
 
     //////////////////////////////////////////////////////
-    // CHECK
+    // ID
+    //////////////////////////////////////////////////////
+
+    const id =
+    location.pathname
+    .replace(/\//g, "")
+    .trim();
+
+    //////////////////////////////////////////////////////
+    // NOTRAFFIC
+    //////////////////////////////////////////////////////
+
+    if (qq === "notraffic") {
+
+        createPopup(
+            "HẾT MÃ",
+            "Link đã hết traffic",
+            "red"
+        );
+
+        return;
+
+    }
+
+    //////////////////////////////////////////////////////
+    // NO ID
     //////////////////////////////////////////////////////
 
     if (!redirects[id]) {
 
-        createPopup(
-            "ERROR",
-            "Không có domain cho ID",
-            "red",
-            true
+        createEditPopup(
+            "unknown",
+            "unknown",
+            id
         );
 
         return;
@@ -133,24 +117,124 @@ async function start() {
     // DOMAIN
     //////////////////////////////////////////////////////
 
-    let scriptDomain =
-        redirects[id]
-        .replace("https://", "")
-        .replace("http://", "")
-        .replace("/", "")
-        .trim();
+    const scriptDomain =
+    redirects[id];
 
     //////////////////////////////////////////////////////
-    // SUCCESS
+    // START POPUP
     //////////////////////////////////////////////////////
 
     createPopup(
-        "SUCCESS",
-        "Đúng domain:\n" +
-        scriptDomain,
-        "#00ff88",
-        false
+        "AI SYSTEM",
+        "Đang check domain...\n\nID: " + id,
+        "#00ff88"
     );
+
+    //////////////////////////////////////////////////////
+    // WAIT
+    //////////////////////////////////////////////////////
+
+    setTimeout(() => {
+
+        //////////////////////////////////////////////////////
+        // TEXT
+        //////////////////////////////////////////////////////
+
+        const text =
+        document.body.innerText || "";
+
+        //////////////////////////////////////////////////////
+        // FIND
+        //////////////////////////////////////////////////////
+
+        const domains =
+        text.match(
+            /([a-zA-Z0-9-]+\.[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g
+        ) || [];
+
+        //////////////////////////////////////////////////////
+        // IMAGE DOMAIN
+        //////////////////////////////////////////////////////
+
+        let imageDomain = null;
+
+        //////////////////////////////////////////////////////
+        // LOOP
+        //////////////////////////////////////////////////////
+
+        domains.forEach(d => {
+
+            if (
+                d.includes(".")
+            ) {
+
+                imageDomain = d;
+
+            }
+
+        });
+
+        //////////////////////////////////////////////////////
+        // NOT FOUND
+        //////////////////////////////////////////////////////
+
+        if (!imageDomain) {
+
+            createPopup(
+                "AI ERROR",
+                "Không tìm thấy domain",
+                "red"
+            );
+
+            return;
+
+        }
+
+        //////////////////////////////////////////////////////
+        // WRONG DOMAIN
+        //////////////////////////////////////////////////////
+
+        if (
+            imageDomain !== scriptDomain
+        ) {
+
+            createEditPopup(
+                imageDomain,
+                scriptDomain,
+                id
+            );
+
+            return;
+
+        }
+
+        //////////////////////////////////////////////////////
+        // SUCCESS
+        //////////////////////////////////////////////////////
+
+        createPopup(
+            "SUCCESS",
+            "Đúng domain:\n" +
+            imageDomain +
+            "\n\nAUTO SEARCH...",
+            "#00ff88"
+        );
+
+        //////////////////////////////////////////////////////
+        // SEARCH
+        //////////////////////////////////////////////////////
+
+        setTimeout(() => {
+
+            location.href =
+            "https://www.google.com/search?q=" +
+            encodeURIComponent(
+                "site:" + imageDomain
+            );
+
+        }, 1500);
+
+    }, 3000);
 
 }
 
@@ -161,45 +245,23 @@ async function start() {
 function createPopup(
     title,
     text,
-    color,
-    forceEdit,
-    autoDomain = ""
+    color
 ) {
 
-    let old =
-        document.getElementById(
-            "pythonPopup"
-        );
+    removeOld();
 
-    if (old) old.remove();
-
-    let div =
-        document.createElement(
-            "div"
-        );
+    const div =
+    document.createElement("div");
 
     div.id = "pythonPopup";
 
-    let editHtml = "";
-
-    if (forceEdit) {
-
-        editHtml = `
-
-        <input
-            id="domainInput"
-            value="${autoDomain}"
-        >
-
-        <button id="saveBtn">
-            SỬA DOMAIN
-        </button>
-
-        `;
-
-    }
-
     div.innerHTML = `
+
+    <div style="text-align:center;">
+
+        <img src="${AVATAR}" class="avatar">
+
+    </div>
 
     <div class="title">
         ${title}
@@ -209,16 +271,238 @@ function createPopup(
         ${text}
     </div>
 
-    ${editHtml}
+    <button id="hideBtn">
+        ẨN
+    </button>
 
     `;
 
     document.body.appendChild(div);
 
-    let style =
-        document.createElement(
-            "style"
+    addStyle(color);
+
+    document
+    .getElementById("hideBtn")
+    .onclick = () => div.remove();
+
+}
+
+//////////////////////////////////////////////////////
+// EDIT POPUP
+//////////////////////////////////////////////////////
+
+function createEditPopup(
+    imageDomain,
+    scriptDomain,
+    id
+) {
+
+    removeOld();
+
+    const div =
+    document.createElement("div");
+
+    div.id = "pythonPopup";
+
+    div.innerHTML = `
+
+    <div style="text-align:center;">
+
+        <img src="${AVATAR}" class="avatar">
+
+    </div>
+
+    <div class="title">
+        DOMAIN ERROR
+    </div>
+
+    <div class="text">
+
+ẢNH:
+${imageDomain}
+
+SCRIPT:
+${scriptDomain}
+
+ID:
+${id}
+
+    </div>
+
+    <input
+        id="domainInput"
+        value="${imageDomain}"
+    >
+
+    <button id="saveBtn">
+        SỬA DOMAIN
+    </button>
+
+    `;
+
+    document.body.appendChild(div);
+
+    addStyle("red");
+
+    //////////////////////////////////////////////////////
+    // SAVE
+    //////////////////////////////////////////////////////
+
+    document
+    .getElementById("saveBtn")
+    .onclick =
+    async () => {
+
+        const newDomain =
+        document
+        .getElementById(
+            "domainInput"
+        )
+        .value
+        .trim();
+
+        if (!newDomain) return;
+
+        //////////////////////////////////////////////////////
+        // GET FILE
+        //////////////////////////////////////////////////////
+
+        const getFile =
+        await fetch(
+            "https://api.github.com/repos/" +
+            REPO +
+            "/contents/domains.json",
+            {
+
+                headers: {
+
+                    Authorization:
+                    "Bearer " + TOKEN,
+
+                    Accept:
+                    "application/vnd.github+json"
+
+                }
+
+            }
         );
+
+        const fileData =
+        await getFile.json();
+
+        //////////////////////////////////////////////////////
+        // JSON
+        //////////////////////////////////////////////////////
+
+        let json =
+        JSON.parse(
+            atob(
+                fileData.content
+            )
+        );
+
+        //////////////////////////////////////////////////////
+        // UPDATE
+        //////////////////////////////////////////////////////
+
+        json[id] =
+        newDomain;
+
+        //////////////////////////////////////////////////////
+        // PUSH
+        //////////////////////////////////////////////////////
+
+        await fetch(
+            "https://api.github.com/repos/" +
+            REPO +
+            "/contents/domains.json",
+            {
+
+                method: "PUT",
+
+                headers: {
+
+                    Authorization:
+                    "Bearer " + TOKEN,
+
+                    Accept:
+                    "application/vnd.github+json",
+
+                    "Content-Type":
+                    "application/json"
+
+                },
+
+                body: JSON.stringify({
+
+                    message:
+                    "update " + id,
+
+                    content:
+                    btoa(
+                        JSON.stringify(
+                            json,
+                            null,
+                            2
+                        )
+                    ),
+
+                    sha:
+                    fileData.sha
+
+                })
+
+            }
+        );
+
+        //////////////////////////////////////////////////////
+        // SUCCESS
+        //////////////////////////////////////////////////////
+
+        createPopup(
+            "GITHUB UPDATED",
+            id +
+            "\n\n→\n\n" +
+            newDomain,
+            "#00ff88"
+        );
+
+    };
+
+}
+
+//////////////////////////////////////////////////////
+// REMOVE
+//////////////////////////////////////////////////////
+
+function removeOld() {
+
+    const old =
+    document.getElementById(
+        "pythonPopup"
+    );
+
+    if (old) old.remove();
+
+}
+
+//////////////////////////////////////////////////////
+// STYLE
+//////////////////////////////////////////////////////
+
+function addStyle(color) {
+
+    const old =
+    document.getElementById(
+        "pythonStyle"
+    );
+
+    if (old) old.remove();
+
+    const style =
+    document.createElement("style");
+
+    style.id = "pythonStyle";
 
     style.innerHTML = `
 
@@ -229,21 +513,32 @@ function createPopup(
         width:270px;
         background:#0d1117;
         border:1px solid ${color};
-        border-radius:12px;
+        border-radius:14px;
         padding:15px;
         z-index:999999999;
         font-family:monospace;
         box-shadow:0 0 20px ${color};
     }
 
-    #pythonPopup .title{
+    .avatar{
+        width:55px;
+        height:55px;
+        border-radius:50%;
+        object-fit:cover;
+        border:2px solid #00ff88;
+        margin-bottom:10px;
+        box-shadow:0 0 15px #00ff88;
+    }
+
+    .title{
         color:${color};
         font-size:16px;
         font-weight:bold;
         margin-bottom:12px;
+        text-align:center;
     }
 
-    #pythonPopup .text{
+    .text{
         color:white;
         font-size:13px;
         white-space:pre-line;
@@ -265,7 +560,8 @@ function createPopup(
         margin-bottom:10px;
     }
 
-    #saveBtn{
+    #saveBtn,
+    #hideBtn{
         width:100%;
         height:38px;
         background:#00ff88;
@@ -280,156 +576,6 @@ function createPopup(
     `;
 
     document.head.appendChild(style);
-
-    //////////////////////////////////////////////////////
-    // SAVE
-    //////////////////////////////////////////////////////
-
-    let saveBtn =
-        document.getElementById(
-            "saveBtn"
-        );
-
-    if (saveBtn) {
-
-        saveBtn.onclick =
-        async function () {
-
-            let id =
-                location.pathname
-                .replace(/\//g, "")
-                .trim();
-
-            let newDomain =
-                document
-                .getElementById(
-                    "domainInput"
-                )
-                .value
-                .trim();
-
-            if (!newDomain) return;
-
-            //////////////////////////////////////////////////////
-            // GET FILE
-            //////////////////////////////////////////////////////
-
-            const getFile =
-                await fetch(
-                    "https://api.github.com/repos/oooooconcac/Cuttay-uptolink-/contents/domains.json",
-                    {
-                        headers: {
-
-                            Authorization:
-                                "Bearer " + TOKEN,
-
-                            Accept:
-                                "application/vnd.github+json"
-
-                        }
-                    }
-                );
-
-            const fileData =
-                await getFile.json();
-
-            //////////////////////////////////////////////////////
-            // JSON
-            //////////////////////////////////////////////////////
-
-            let json =
-                JSON.parse(
-                    atob(
-                        fileData.content
-                    )
-                );
-
-            //////////////////////////////////////////////////////
-            // UPDATE
-            //////////////////////////////////////////////////////
-
-            json[id] =
-                newDomain;
-
-            //////////////////////////////////////////////////////
-            // PUSH
-            //////////////////////////////////////////////////////
-
-            await fetch(
-                "https://api.github.com/repos/oooooconcac/Cuttay-uptolink-/contents/domains.json",
-                {
-
-                    method: "PUT",
-
-                    headers: {
-
-                        Authorization:
-                            "Bearer " + TOKEN,
-
-                        Accept:
-                            "application/vnd.github+json",
-
-                        "Content-Type":
-                            "application/json"
-
-                    },
-
-                    body: JSON.stringify({
-
-                        message:
-                            "update domain " + id,
-
-                        content:
-                            btoa(
-                                JSON.stringify(
-                                    json,
-                                    null,
-                                    2
-                                )
-                            ),
-
-                        sha:
-                            fileData.sha
-
-                    })
-
-                }
-            );
-
-            //////////////////////////////////////////////////////
-            // SUCCESS
-            //////////////////////////////////////////////////////
-
-            div.innerHTML = `
-
-            <div style="
-            color:#00ff88;
-            font-size:18px;
-            font-family:monospace;
-            font-weight:bold;
-            margin-bottom:12px;
-            ">
-                GITHUB UPDATED
-            </div>
-
-            <div style="
-            color:white;
-            font-size:13px;
-            white-space:pre-line;
-            font-family:monospace;
-            ">
-                ${id}
-
-                →
-
-                ${newDomain}
-            </div>
-
-            `;
-
-        };
-
-    }
 
 }
 
