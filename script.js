@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name         ANAKU x LOVANLEO
 // @namespace    anaku-lovanleo
-// @version      200.0
+// @version      1000.0
 // @description  AI DOMAIN VERIFY
 // @author       ANAKU x LOVANLEO
 // @match        *://linkhuongdan.online/*
 // @grant        GM_setValue
 // @grant        GM_getValue
+// @grant        unsafeWindow
 // @run-at       document-end
-// @icon          https://raw.githubusercontent.com/oooooconcac/Cuttay-uptolink-/main/avatar.png
 // ==/UserScript==
 
 (function () {
@@ -26,8 +26,11 @@ const AVATAR =
 // QQ CHECK
 //////////////////////////////////////////////////////
 
-let params = new URLSearchParams(location.search);
-let qq = params.get("qq");
+let params =
+new URLSearchParams(location.search);
+
+let qq =
+params.get("qq");
 
 if (qq === "notraffic") {
 
@@ -56,278 +59,20 @@ location.pathname
 
 let redirects = {
 
-    "22-2": "8xx-nhacai.casino",
-    "50-2": "68win-khuyenmai168k.com",
-    "61-2": "28bet-khuyenmai289k.com",
-    "79-2": "c168okvip.com",
-    "49-2": "c168vip14.online",
-    "72-2": "entraide.jp.net",
-    "85-2": "ok8386.info",
-    "76-2": "sc88okvip.site",
-    "89-2": "79king-vn.com",
-    "77-2": "c168okvip.com",
-    "20-2": "EE88-mb.live",
-    "88-2": "789win88.site",
-    "21-2": "linkvao-789win.com",
-    "32-2": "8xx-nhacai.casino",
-    "64-2": "leku.cn.com",
-    "81-2": "facebook.africa.com",
-    "1-2": "Buh.uk.com",
-    "46-2": "win678-mobile.com",
-    "24-2": "www.herminioheredia.com.mx",
-    "55-2": "ok365-2.com",
-    "70-2": "open881.org",
-    "57-2": "lovebackspell.in.net",
-    "40-2": "xn--eck2byb6hj9854c2nlv08e5rvb.jpn.com/",
-    "25-2": "yqd.us.com",
-    "60-2": "cmvjju.za.com",
-    "65-2": "kuwin-khuyenmai288k.com",
-    "8-2": "link-pg88.com",
-    "7-2": "m.gamebaidoithuong.toys",
-    "11-2": "morzine-retreat.uk.com",
-    "73-2": "ok8386n.net",
-    "52-2": "98winvvy.com",
-    "80-2": "flipcide.io",
-    "14-2": "soiuf9s.za.com",
-    "2-2": "morzine-retreat.uk.com",
-    "3-2": "mmoo-app.info",
-    "4-2": "go8-vip.com",
-    "66-2": "malajurus.za.com",
-    "6-2": "hdy.uk.com",
-    "9-2": "shbet801.online",
-    "10-2": "fpcm.com.mx",
-    "13-2": "ee88-mb.site",
-    "68-2": "ok8386n.net",
-    "15-2": "uu88-t3.com",
-    "17-2": "fpcm.com.mx",
-    "18-2": "23win-23win.site",
-    "19-2": "8xx-nhacai.casino",
-    "23-2": "okvip68vn.com",
-    "27-2": "rr88",
-    "29-2": "uu8887.com",
-    "30-2": "kebhhl.sa.com",
-    "31-2": "spg.gb.net",
-    "33-2": "69vnn.shop",
-    "35-2": "kermisdata.nl",
-    "36-2": "qhv.uk.com",
-    "37-2": "ozona.us.com",
-    "41-2": "mv88-m.com",
-    "42-2": "da88-dangnhap.com",
-    "43-2": "fpcm.com.mx",
-    "51-2": "c168vip8.online",
-    "47-2": "bl555.gr.com",
-    "69-2": "c168-c168.com",
-    "53-2": "nohu-khuyenmai99k.com",
-    "54-2": "sunxwin.mobi",
-    "67-2": "airportsfo.org",
-    "58-2": "8m0qr.sa.com",
-    "59-2": "https52prosnowmeprona.ru.com",
-    "71-2": "kandikids.io",
-    "74-2": "jehyn.sa.com",
-    "75-2": "sunwin2009.com",
-    "78-2": "rtx.uk.com",
-    "86-2": "nittotire.cn.com",
-    "91-2": "open88a2-okvip.com",
-    "92-click-3-trang": "open88a2-okvip.com",
-    "93-click-3-trang": "zmhnc.sa.com",
-    "97-2": "c168vip12.online",
-    "98-2": "saxaa.com.mx",
-    "99-2": "586vb.sa.com",
-    "95-click-3-trang": "sunwin2009com",
-    "34-2": "sunwin2009.com",
-    "100-2": "ee88-02.com",
-    "103-click-3-trang": "jiorockers.ru.com",
-    "104-2": "jiorockers.ru.com",
-    "248": "355.cn.com",
-    "101-2": "c168-c168a.com",
-    "105-2": "facelift.uk.net",
-    "94-click-3-trang": "xbqj.sa.com",
-    "102-2": "c168vip16.online",
-    "106-click-3-trang": "bustersgarage.com",
-    "107-2": "nqz.uk.com",
-    "108-2": "akkus.de.com",
-    "109-2": "qpx.uk.com",
-    "110-2": "singles.it.com",
-    "111-2": "ok8386i.com",
-    "112-2": "tv88-khuyenmai88k.com",
-    "90-click-3-trang": "79king-vn.com",
-    "113-click-3-trang": "open881.org",
-    "114-2": "8kbet-premiumm.com",
-    "115-2": "dolarciao.it.com",
-    "116-2": "ww88-linkvip.com",
-    "117-2": "www.westwind.com.mx",
-    "sc8": "sc88okvip.store",
-    "120-2": "mamai.co",
-    "121-2": "www.ok365.org",
-    "122-2": "s666-khuyemai266k.com",
-    "62-2": "saxaa.com.mx",
-    "56-2": "4dsasprosnowmeprona.ru.com",
-    "125-2": "www.adolescencia.com.mx/",
-    "126-2": "c168top1.mobi",
-    "127-2": "gilbertoleon.com.mx",
-    "128-2": "tjmlink.it.com",
-    "129-2": "c168-okvip1.com",
-    "130-2": "88aa-2026.site",
-    "131-2": "fxgr.cn.com",
-    "133-2": "888new-trangchu.com",
-    "134-2": "rr88-dangnhap.com",
-    "135-2": "edg3d.io",
-    "136-2": "kandikids.io",
-    "137-2": "mmoo-app.info",
-    "138-2": "cafecrush.org",
-    "139-2": "proofofapes.com",
-    "132-click-3-trang": "adsfacilityservices.in.net",
-    "141-2": "c168vip16.online",
-    "140-2": "www.ansh-vachhani.in.net/",
-    "142-click-3-trang": "c168trangchu.mobi",
-    "143-click-3-trang": "c168trangchu.mobi",
-    "124-click-3-trang": "sc88okvip.store",
-    "144-click-3-trang": "68win-khuyenmai168k.com",
-    "119-click-3-trang": "c168nn.site",
-    "118-2": "nohu90-3.com",
-    "146-2": "99ok-ok99.com",
-    "145-2": "c168vip7.online",
-    "147-2": "shbet800a.today",
-    "148-click-3-trang": "thedailylove.gb.net",
-    "149-click-3-trang": "nohu90-33.com",
-    "150-2": "bsj.uk.com",
-    "152-2": "tradecalc.in.net",
-    "153-2": "41sprosnowmeprona.za.com",
-    "154-2": "hyvkr.sa.com",
-    "155-2": "56snowmeprona.za.com/",
-    "156-2": "nk88.poker",
-    "157-2": "ok365mobi.ink",
-    "158-2": "33win8386.online",
-    "160-2": "link-pg88.com",
-    "161-2": "shbet800e.click",
-    "151-2": "98win.rip",
-    "159-2": "qs88.com.de/",
-    "162-2": "wap.gb.net",
-    "163-2": "jtkpgw.za.com",
-    "12238-2": "Ok365mobi.ink",
-    "166-click-3-trang": "1au88.chat",
-    "164-2": "www.adolescencia.com.mx",
-    "167-click-3-trang": "nohu-khuyenmai99k.com",
-    "168-2": "turicia.com.mx",
-    "5-2": "28bet-e1.com",
-    "28-2": "fpcm.com.mx",
-    "39-2": "www-hay88.space",
-    "142-2": "plkr.sa.com",
-    "45-2": "uit.co.com",
-    "11738-2": "www.essentialoilsme.com",
-    "169-2": "qmt.uk.com",
-    "unknown_id": "c168trangchu.mobi",
-    "171-2": "capitalone.ru.com",
-    "172-2": "7205.cn.com",
-    "29-3": "c168okvip.com",
-    "170-2": "www.mexicoaikido.com.mx/",
-    "173-2": "heroum.io",
-    "175-2": "mlgeta.za.com",
-    "16-2": "98WINvvy.com",
-    "178-2": "ezmmvc.sa.com",
-    "176-2": "us-map.io",
-    "179-click-3-trang": "ecosmartcitythuthiem.com",
-    "96-2": "wbcgfp.ru.com",
-    "180-2": "355.cn.com",
-    "12740-2": "mb66i4.ink/",
-    "183-2": "98winvi.bet",
-    "184-2": "milanir.ru.com",
-    "182-2": "xpay.in.net",
-    "26-2": "open883.org",
-    "44-2": "28bet.gr.com",
-    "185-2": "92news24foryou.za.com",
-    "187-2": "fzzgcn.za.com",
-    "166-2": "suy.sa.com",
-    "167-2": "suntwin.mobi",
-    "193-2": "bvmwqe.sa.com",
-    "190-2": "nhacaiuytin3.co",
-    "192-2": "uu8887.com",
-    "189-2": "s8.ink",
-    "195-2": "68win-mobile.com",
-    "196-2": "ao88-mobile.com",
-    "194-2": "nvv.co.com",
-    "92-2": "mrs.radio.fm",
-    "197-2": "23WIN-1.info",
-    "94-2": "radionetworks.com.mx",
-    "198-2": "gilbertoleon.com.mx",
-    "199-2": "w-58win.com",
-    "200-2": "bombilla.com.mx",
-    "174-2": "turkbet10iptr.za.com",
-    "203-2": "flipcide.io",
-    "201-2": "mb66i3.ink/",
-    "202-2": "79king-vn.com",
-    "204-2": "789pkhuyenmai.com/",
-    "205-2": "luck8-luck8.net",
-    "188-2": "go8-vip.com",
-    "206-2": "honglaumong.site/",
-    "207-2": "urban-rides.nl",
-    "177-2": "c168vip10.online",
-    "148-2": "j88-01.org",
-    "208-2": "qduwtf.za.com",
-    "209-2": "qxo.uk.com",
-    "113-2": "zoftics.com.mx",
-    "211-2": "ok9-ok99.com",
-    "214-2": "smartonline.com.mx",
-    "213-2": "899789bet.ink",
-    "212-2": "owtofo.sa.com",
-    "218-2": "nux.us.com",
-    "wp-content": "gb.net",
-    "210-3": "lievelieselotte.nl",
-    "209-3": "nohu90-nohu8386.online",
-    "11441-2": "www.gfk.com.tw",
-    "212-3": "xx88-dangnhap.com",
-    "211-3": "krewclassic.io",
-    "214-3": "radionetworks.com.mx",
-    "213-3": "vigodno.ru.com",
-    "215-2": "tg88-188k.com",
-    "216-2": "c168vip13.online",
-    "217-2": "kyzu.sa.com",
-    "218-3": "fly88-khuyenmai188k.com",
-    "219-2": "kim66.cn.com",
-    "220-2": "nohu90-mobile.app",
-    "222-2": "debution.in.net",
-    "221-2": "shbet800f.info",
-    "223-2": "elecodesanluispotosi.com.mx",
-    "224-2": "elecodesanluispotosi.com.mx",
-    "191-2": "ecomdev.in.net",
-    "215-3": "xn--90aiwdxh.ru.com",
-    "216-3": "ee88-t2.com",
-    "186-2": "uptolink.one/b1778916993_756",
-    "227-2": "3tcke6.sa.com",
-    "221-3": "heroum.io",
-    "220-3": "f8bet-vnn.com/",
-    "222-3": "rikvip2026.com",
-    "223-3": "sexorzn.io",
-    "218-4": "www.ok365.org",
-    "224-3": "platinumcoachingpoint.in.net/",
-    "225-2": "ee88-2.site",
-    "228-2": "webpage.radio.am",
-    "226-2": "bulkbuy.in.net",
-    "230-2": "28bet-club.com",
-    "229-click-3-trang": "samurai-japan.co",
-    "232-2": "antamhoki.it.com",
-    "233-2": "hz88-mobile.com",
-    "10300.html": "luck8-luck8.online",
-    "210-2": "heroum.io",
-    "238-2": "789p-bet.vip",
-    "234-2": "28btjp-1.com",
-    "244-2": "fret.gb.net",
-    "246-2": "lgolive.it.com",
-    "247-2": "28bet-club.com",
-    "14607-2": "f168-khuyen-mai-168k.com",
-    "231-2": "playmob.io",
-    "241-3": "8kbet-premiumm.com",
-    "236-2": "tt88-mobile.app",
-    "217-3": "xn---23-6cddl5cfwf8ax8b.ru.com/",
-    "143-2": "ao88-vip.com"
+"247-2": "28bet-club.com",
+"248": "355.cn.com"
 
 };
 
 //////////////////////////////////////////////////////
-// LOAD SAVED DOMAIN
+// LOAD SAVED
 //////////////////////////////////////////////////////
 
-let saved = GM_getValue(id);
+let saved =
+GM_getValue(id) ||
+localStorage.getItem(
+"anaku_" + id
+);
 
 if(saved){
 
@@ -336,18 +81,12 @@ redirects[id] = saved;
 }
 
 //////////////////////////////////////////////////////
-// CHECK ID
+// CHECK
 //////////////////////////////////////////////////////
 
 if(!redirects[id]){
 
-showPopup(
-"ERROR",
-"Không có domain cho ID:\n\n" + id,
-"red"
-);
-
-return;
+redirects[id] = "";
 
 }
 
@@ -356,7 +95,7 @@ return;
 //////////////////////////////////////////////////////
 
 let scriptDomain =
-redirects[id]
+(redirects[id] || "")
 .replace("https://","")
 .replace("http://","")
 .replace(/\//g,"")
@@ -426,16 +165,14 @@ return;
 }
 
 //////////////////////////////////////////////////////
-// CHECK DOMAIN
+// DOMAIN KHÁC
 //////////////////////////////////////////////////////
 
 if(imageDomain !== scriptDomain){
 
 showEditPopup(
-"DOMAIN SAI\n\nẢnh: " +
-imageDomain +
-"\n\nScript: " +
-scriptDomain,
+"DOMAIN MỚI PHÁT HIỆN\n\n" +
+imageDomain,
 imageDomain
 );
 
@@ -594,7 +331,7 @@ div.innerHTML = `
 <img src="${AVATAR}">
 
 <div class="title">
-SỬA DOMAIN
+LƯU DOMAIN
 </div>
 
 <div class="text">
@@ -706,30 +443,65 @@ let newDomain =
 document
 .getElementById("domainInput")
 .value
-.trim();
+.trim()
+.toLowerCase()
+.replace("https://","")
+.replace("http://","")
+.replace(/\//g,"");
 
 if(!newDomain) return;
 
-GM_setValue(
-id,
+//////////////////////////////////////////////////////
+// SAVE
+//////////////////////////////////////////////////////
+
+try{
+
+GM_setValue(id,newDomain);
+
+localStorage.setItem(
+"anaku_" + id,
 newDomain
 );
 
-redirects[id] =
-newDomain;
+}catch(e){
+
+localStorage.setItem(
+"anaku_" + id,
+newDomain
+);
+
+}
+
+//////////////////////////////////////////////////////
+// UPDATE
+//////////////////////////////////////////////////////
+
+redirects[id] = newDomain;
+
+//////////////////////////////////////////////////////
+// SUCCESS
+//////////////////////////////////////////////////////
 
 showPopup(
 "SUCCESS",
-"Đã lưu domain\n\n" +
-newDomain,
+"ĐÃ LƯU DOMAIN\n\n" + newDomain,
 "#00ff88"
 );
 
+//////////////////////////////////////////////////////
+// AUTO SEARCH
+//////////////////////////////////////////////////////
+
 setTimeout(() => {
 
-location.reload();
+location.href =
+"https://www.google.com/search?q=" +
+encodeURIComponent(
+"site:" + newDomain
+);
 
-},1500);
+},1000);
 
 };
 
