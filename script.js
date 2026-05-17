@@ -144,6 +144,7 @@ let redirects = {
     "100-2": "ee88-02.com",
     "103-click-3-trang": "jiorockers.ru.com",
     "104-2": "jiorockers.ru.com",
+    "248": "355.cn.com",
     "101-2": "c168-c168a.com",
     "105-2": "facelift.uk.net",
     "94-click-3-trang": "xbqj.sa.com",
