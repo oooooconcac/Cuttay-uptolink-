@@ -3,20 +3,13 @@
 // @namespace    anaku-lovanleo-upto
 // @version      99.9
 // @description  ANAKU x LOVANLEO
+// @require      https://raw.githubusercontent.com/oooooconcac/Cuttay-uptolink-/main/logic.js
 // @author       ANAKU x LOVANLEO
 // @match        *://linkhuongdan.online/*
-// @grant        none
+// @grant        GM_xmlhttpRequest
+// @connect      uptolink.one
+// @connect      raw.githubusercontent.com
+// @connect      api.github.com
+// @connect      *
+// @run-at       document-end
 // ==/UserScript==
-
-(function () {
-
-    'use strict';
-
-    const LOGIC_URL =
-        "https://raw.githubusercontent.com/oooooconcac/Cuttay-uptolink-/main/logic.js?t=" + Date.now();
-
-    fetch(LOGIC_URL)
-        .then(r => r.text())
-        .then(code => eval(code));
-
-})();
