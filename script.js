@@ -8,6 +8,7 @@
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @run-at       document-end
+// @icon          https://raw.githubusercontent.com/oooooconcac/Cuttay-uptolink-/main/avatar.png
 // ==/UserScript==
 
 (function () {
@@ -25,15 +26,8 @@ const AVATAR =
 // QQ CHECK
 //////////////////////////////////////////////////////
 
-let params =
-new URLSearchParams(location.search);
-
-let qq =
-params.get("qq");
-
-//////////////////////////////////////////////////////
-// NOTRAFFIC
-//////////////////////////////////////////////////////
+let params = new URLSearchParams(location.search);
+let qq = params.get("qq");
 
 if (qq === "notraffic") {
 
@@ -333,8 +327,7 @@ let redirects = {
 // LOAD SAVED DOMAIN
 //////////////////////////////////////////////////////
 
-let saved =
-GM_getValue(id);
+let saved = GM_getValue(id);
 
 if(saved){
 
@@ -350,7 +343,7 @@ if(!redirects[id]){
 
 showPopup(
 "ERROR",
-"Không có domain",
+"Không có domain cho ID:\n\n" + id,
 "red"
 );
 
@@ -366,8 +359,9 @@ let scriptDomain =
 redirects[id]
 .replace("https://","")
 .replace("http://","")
-.replace("/","")
-.trim();
+.replace(/\//g,"")
+.trim()
+.toLowerCase();
 
 //////////////////////////////////////////////////////
 // WAIT
@@ -401,6 +395,13 @@ domains =
 let imageDomain = null;
 
 domains.forEach(d => {
+
+d = d
+.replace("https://","")
+.replace("http://","")
+.replace(/\//g,"")
+.trim()
+.toLowerCase();
 
 if(d.includes(".")){
 
@@ -709,10 +710,6 @@ document
 
 if(!newDomain) return;
 
-//////////////////////////////////////////////////////
-// SAVE DOMAIN
-//////////////////////////////////////////////////////
-
 GM_setValue(
 id,
 newDomain
@@ -721,10 +718,6 @@ newDomain
 redirects[id] =
 newDomain;
 
-//////////////////////////////////////////////////////
-// SUCCESS
-//////////////////////////////////////////////////////
-
 showPopup(
 "SUCCESS",
 "Đã lưu domain\n\n" +
@@ -732,17 +725,9 @@ newDomain,
 "#00ff88"
 );
 
-//////////////////////////////////////////////////////
-// AUTO SEARCH
-//////////////////////////////////////////////////////
-
 setTimeout(() => {
 
-location.href =
-"https://www.google.com/search?q=" +
-encodeURIComponent(
-"site:" + newDomain
-);
+location.reload();
 
 },1500);
 
