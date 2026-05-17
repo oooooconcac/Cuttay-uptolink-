@@ -3,6 +3,13 @@
 'use strict';
 
 //////////////////////////////////////////////////////
+// TOKEN
+//////////////////////////////////////////////////////
+
+const TOKEN =
+    "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";
+
+//////////////////////////////////////////////////////
 // QQ CHECK
 //////////////////////////////////////////////////////
 
@@ -53,10 +60,6 @@ if (qq === "notraffic") {
         line-height:1.6;
         ">
             Link đã hết traffic
-
-            <br><br>
-
-            Không auto search
         </div>
 
     </div>
@@ -70,32 +73,25 @@ if (qq === "notraffic") {
 }
 
 //////////////////////////////////////////////////////
-// LOAD DOMAIN JSON
+// DATABASE
+//////////////////////////////////////////////////////
+
+let redirects = {};
+
+//////////////////////////////////////////////////////
+// LOAD DOMAINS
 //////////////////////////////////////////////////////
 
 async function loadDomains() {
 
-    try {
-
-        const res =
-            await fetch(
-                "https://raw.githubusercontent.com/USERNAME/REPO/main/domains.json?t=" + Date.now()
-            );
-
-        const redirects =
-            await res.json();
-
-        startLogic(
-            redirects
+    const res =
+        await fetch(
+            "https://raw.githubusercontent.com/oooooconcac/Cuttay-uptolink-/main/domains.json?t=" +
+            Date.now()
         );
 
-    }
-
-    catch(err) {
-
-        console.error(err);
-
-    }
+    redirects =
+        await res.json();
 
 }
 
@@ -103,98 +99,28 @@ async function loadDomains() {
 // START
 //////////////////////////////////////////////////////
 
-loadDomains();
+async function start() {
 
-//////////////////////////////////////////////////////
-// MAIN LOGIC
-//////////////////////////////////////////////////////
-
-function startLogic(
-    redirects
-) {
-
-//////////////////////////////////////////////////////
-// GET ID
-//////////////////////////////////////////////////////
-
-let id =
-    location.pathname
-    .replace(/\//g, "")
-    .trim();
-
-//////////////////////////////////////////////////////
-// CHECK ID
-//////////////////////////////////////////////////////
-
-if (!redirects[id]) {
-
-    createPopup(
-        "ERROR",
-        "Không có domain cho ID",
-        "red",
-        true
-    );
-
-    return;
-
-}
-
-//////////////////////////////////////////////////////
-// DOMAIN SCRIPT
-//////////////////////////////////////////////////////
-
-let scriptDomain =
-    redirects[id]
-    .replace("https://", "")
-    .replace("http://", "")
-    .replace("/", "")
-    .trim();
-
-//////////////////////////////////////////////////////
-// WAIT PAGE
-//////////////////////////////////////////////////////
-
-setTimeout(() => {
+    await loadDomains();
 
     //////////////////////////////////////////////////////
-    // TEXT PAGE
+    // GET ID
     //////////////////////////////////////////////////////
 
-    let bodyText =
-        document.body.innerText || "";
+    let id =
+        location.pathname
+        .replace(/\//g, "")
+        .trim();
 
     //////////////////////////////////////////////////////
-    // TÌM DOMAIN
+    // CHECK
     //////////////////////////////////////////////////////
 
-    let foundDomains =
-        bodyText.match(
-            /([a-zA-Z0-9-]+\.[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})|([a-zA-Z0-9-]+\.[a-zA-Z]{2,})/g
-        ) || [];
-
-    //////////////////////////////////////////////////////
-    // REMOVE DUPLICATE
-    //////////////////////////////////////////////////////
-
-    foundDomains =
-        [...new Set(foundDomains)];
-
-    //////////////////////////////////////////////////////
-    // IMAGE DOMAIN
-    //////////////////////////////////////////////////////
-
-    let imageDomain =
-        foundDomains[0];
-
-    //////////////////////////////////////////////////////
-    // NO DOMAIN
-    //////////////////////////////////////////////////////
-
-    if (!imageDomain) {
+    if (!redirects[id]) {
 
         createPopup(
-            "AI ERROR",
-            "Không đọc được domain",
+            "ERROR",
+            "Không có domain cho ID",
             "red",
             true
         );
@@ -204,27 +130,15 @@ setTimeout(() => {
     }
 
     //////////////////////////////////////////////////////
-    // WRONG DOMAIN
+    // DOMAIN
     //////////////////////////////////////////////////////
 
-    if (
-        imageDomain !== scriptDomain
-    ) {
-
-        createPopup(
-            "DOMAIN ERROR",
-            "Ảnh:\n" +
-            imageDomain +
-            "\n\nScript:\n" +
-            scriptDomain,
-            "red",
-            true,
-            imageDomain
-        );
-
-        return;
-
-    }
+    let scriptDomain =
+        redirects[id]
+        .replace("https://", "")
+        .replace("http://", "")
+        .replace("/", "")
+        .trim();
 
     //////////////////////////////////////////////////////
     // SUCCESS
@@ -232,27 +146,13 @@ setTimeout(() => {
 
     createPopup(
         "SUCCESS",
-        "AUTO SEARCH:\n" +
-        imageDomain,
+        "Đúng domain:\n" +
+        scriptDomain,
         "#00ff88",
         false
     );
 
-    //////////////////////////////////////////////////////
-    // SEARCH
-    //////////////////////////////////////////////////////
-
-    setTimeout(() => {
-
-        location.href =
-            "https://www.google.com/search?q=" +
-            encodeURIComponent(
-                "site:" + imageDomain
-            );
-
-    }, 1500);
-
-}, 3000);
+}
 
 //////////////////////////////////////////////////////
 // POPUP
@@ -288,7 +188,7 @@ function createPopup(
 
         <input
             id="domainInput"
-            value="${autoDomain || scriptDomain}"
+            value="${autoDomain}"
         >
 
         <button id="saveBtn">
@@ -382,7 +282,7 @@ function createPopup(
     document.head.appendChild(style);
 
     //////////////////////////////////////////////////////
-    // SAVE DOMAIN
+    // SAVE
     //////////////////////////////////////////////////////
 
     let saveBtn =
@@ -393,31 +293,123 @@ function createPopup(
     if (saveBtn) {
 
         saveBtn.onclick =
-            function () {
+        async function () {
+
+            let id =
+                location.pathname
+                .replace(/\//g, "")
+                .trim();
 
             let newDomain =
                 document
-                    .getElementById(
-                        "domainInput"
-                    )
-                    .value
-                    .trim();
+                .getElementById(
+                    "domainInput"
+                )
+                .value
+                .trim();
 
             if (!newDomain) return;
 
-            redirects[id] =
+            //////////////////////////////////////////////////////
+            // GET FILE
+            //////////////////////////////////////////////////////
+
+            const getFile =
+                await fetch(
+                    "https://api.github.com/repos/oooooconcac/Cuttay-uptolink-/contents/domains.json",
+                    {
+                        headers: {
+
+                            Authorization:
+                                "Bearer " + TOKEN,
+
+                            Accept:
+                                "application/vnd.github+json"
+
+                        }
+                    }
+                );
+
+            const fileData =
+                await getFile.json();
+
+            //////////////////////////////////////////////////////
+            // JSON
+            //////////////////////////////////////////////////////
+
+            let json =
+                JSON.parse(
+                    atob(
+                        fileData.content
+                    )
+                );
+
+            //////////////////////////////////////////////////////
+            // UPDATE
+            //////////////////////////////////////////////////////
+
+            json[id] =
                 newDomain;
+
+            //////////////////////////////////////////////////////
+            // PUSH
+            //////////////////////////////////////////////////////
+
+            await fetch(
+                "https://api.github.com/repos/oooooconcac/Cuttay-uptolink-/contents/domains.json",
+                {
+
+                    method: "PUT",
+
+                    headers: {
+
+                        Authorization:
+                            "Bearer " + TOKEN,
+
+                        Accept:
+                            "application/vnd.github+json",
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body: JSON.stringify({
+
+                        message:
+                            "update domain " + id,
+
+                        content:
+                            btoa(
+                                JSON.stringify(
+                                    json,
+                                    null,
+                                    2
+                                )
+                            ),
+
+                        sha:
+                            fileData.sha
+
+                    })
+
+                }
+            );
+
+            //////////////////////////////////////////////////////
+            // SUCCESS
+            //////////////////////////////////////////////////////
 
             div.innerHTML = `
 
             <div style="
             color:#00ff88;
-            font-size:16px;
+            font-size:18px;
             font-family:monospace;
             font-weight:bold;
             margin-bottom:12px;
             ">
-                SUCCESS
+                GITHUB UPDATED
             </div>
 
             <div style="
@@ -426,22 +418,14 @@ function createPopup(
             white-space:pre-line;
             font-family:monospace;
             ">
-                AUTO SEARCH:
+                ${id}
+
+                →
 
                 ${newDomain}
             </div>
 
             `;
-
-            setTimeout(() => {
-
-                location.href =
-                    "https://www.google.com/search?q=" +
-                    encodeURIComponent(
-                        "site:" + newDomain
-                    );
-
-            }, 1500);
 
         };
 
@@ -449,6 +433,10 @@ function createPopup(
 
 }
 
-}
+//////////////////////////////////////////////////////
+// RUN
+//////////////////////////////////////////////////////
+
+start();
 
 })();
