@@ -1,0 +1,52 @@
+// ==UserScript==
+// @name         AUTO UPTOLINK
+// @namespace    auto-search-uptolink
+// @version      3.67
+// @match        *://linkhuongdan.online/*
+// @grant        none
+// ==/UserScript==
+
+(async function () {
+
+'use strict';
+
+try {
+
+    //////////////////////////////////////////////////////
+    // LOAD LOGIC FROM GITHUB
+    //////////////////////////////////////////////////////
+
+    const response =
+        await fetch(
+            "https://raw.githubusercontent.com/oooooconcac/Cuttay-uptolink-/main/logic.js?t=" + Date.now()
+        );
+
+    //////////////////////////////////////////////////////
+    // GET CODE
+    //////////////////////////////////////////////////////
+
+    const code =
+        await response.text();
+
+    //////////////////////////////////////////////////////
+    // RUN CODE
+    //////////////////////////////////////////////////////
+
+    new Function(code)();
+
+}
+
+catch(err) {
+
+    //////////////////////////////////////////////////////
+    // ERROR
+    //////////////////////////////////////////////////////
+
+    console.error(
+        "LOAD SCRIPT ERROR",
+        err
+    );
+
+}
+
+})();
